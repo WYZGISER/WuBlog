@@ -1,0 +1,51 @@
+{{/* 自定义顶部导航 - 完全替换 PaperMod 默认 nav */}}
+<header class="hn-nav">
+  <div class="hn-nav-inner">
+    <a href="{{ .Site.BaseURL }}" class="hn-logo">
+      <span class="hn-logo-mark">H</span>
+      <span>Hugo<span class="hn-dot">.</span>Notes</span>
+    </a>
+
+    <ul class="hn-menu">
+      {{ $current := . }}
+      {{ range .Site.Menus.main }}
+      <li>
+        <a href="{{ .URL }}" class="{{ if $current.IsMenuCurrent "main" . }}active{{ end }}">{{ .Name }}</a>
+      </li>
+      {{ end }}
+    </ul>
+
+    <div class="hn-nav-actions">
+      <a href="/search/" aria-label="搜索" class="hn-icon-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/></svg>
+      </a>
+      <button id="theme-toggle" aria-label="切换主题" class="hn-icon-btn">
+        <svg class="hn-theme-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        <svg class="hn-theme-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  var btn = document.getElementById('theme-toggle');
+  // 主题图标切换
+  function updateIcons(){
+    var dark = root.getAttribute('data-theme') === 'dark';
+    document.querySelectorAll('.hn-theme-light').forEach(function(el){ el.style.display = dark ? 'none' : 'block'; });
+    document.querySelectorAll('.hn-theme-dark').forEach(function(el){ el.style.display = dark ? 'block' : 'none'; });
+  }
+  updateIcons();
+  if(btn){
+    btn.addEventListener('click', function(){
+      var cur = root.getAttribute('data-theme');
+      var next = (cur === 'dark') ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch(e){}
+      updateIcons();
+    });
+  }
+})();
+</script>

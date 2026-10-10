@@ -1,0 +1,54 @@
+{{/* 自定义列表页（标签、归档、posts 等） */}}
+{{ define "main" }}
+
+<section style="max-width: 72rem; margin: 0 auto; padding: 4rem 1.5rem 5rem;">
+  <div style="margin-bottom: 3rem;">
+    <p style="font-size: 0.875rem; font-weight: 500; color: var(--brand-600); letter-spacing: 0.05em; text-transform: uppercase; margin: 0 0 0.5rem;">
+      {{ if eq .Type "tags" }}Tag
+      {{ else if eq .Type "categories" }}Category
+      {{ else if eq .Type "archives" }}Archive
+      {{ else }}{{ .Type }}{{ end }}
+    </p>
+    <h1 style="font-family: var(--font-serif); font-weight: 700; font-size: 2.5rem; color: var(--ink-900); margin: 0;">
+      {{ .Title }}
+    </h1>
+    {{ with .Description }}<p style="margin-top: 0.75rem; font-size: 1rem; color: var(--ink-500);">{{ . }}</p>{{ end }}
+  </div>
+
+  <!-- 文章列表 -->
+  <div style="display: flex; flex-direction: column; gap: 1rem;">
+    {{ range .Pages }}
+    <a href="{{ .Permalink }}" class="hn-card" style="display: flex; flex-direction: column; gap: 0.75rem; padding: 1.5rem;">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        {{ with .Params.tags }}{{ range first 1 . }}<span class="hn-tag">{{ . }}</span>{{ end }}{{ end }}
+        <span style="font-size: 0.75rem; color: var(--ink-500);">· {{ .ReadingTime }} 分钟</span>
+      </div>
+      <h3 style="margin: 0;">{{ .Title }}</h3>
+      {{ with .Description }}<p style="margin: 0;">{{ . | truncate 120 }}</p>{{ end }}
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.5rem;">
+        <span style="font-size: 0.875rem; color: var(--ink-500);">{{ .Date.Format "2006.01.02" }}</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--ink-300);"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </div>
+    </a>
+    {{ else }}
+    <p style="color: var(--ink-500);">还没有文章。</p>
+    {{ end }}
+  </div>
+
+  <!-- 分页 -->
+  {{ if gt .Paginator.TotalPages 1 }}
+  <div style="margin-top: 3rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+    {{ if .Paginator.HasPrev }}<a href="{{ .Paginator.Prev.URL }}" class="hn-icon-btn" style="border: 1px solid var(--ink-300);">←</a>{{ end }}
+    {{ range .Paginator.Pagers }}
+    {{ if eq . $.Paginator }}
+    <span class="hn-icon-btn" style="background: var(--brand-500); color: white;">{{ .PageNumber }}</span>
+    {{ else }}
+    <a href="{{ .URL }}" class="hn-icon-btn" style="border: 1px solid var(--ink-300);">{{ .PageNumber }}</a>
+    {{ end }}
+    {{ end }}
+    {{ if .Paginator.HasNext }}<a href="{{ .Paginator.Next.URL }}" class="hn-icon-btn" style="border: 1px solid var(--ink-300);">→</a>{{ end }}
+  </div>
+  {{ end }}
+</section>
+
+{{ end }}

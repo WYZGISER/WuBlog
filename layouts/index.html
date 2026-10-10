@@ -1,0 +1,169 @@
+{{/* 自定义首页 - 完全重写 PaperMod 默认首页 */}}
+{{ define "main" }}
+
+<!-- Hero -->
+<section style="position: relative; overflow: hidden; border-bottom: 1px solid var(--ink-200);">
+  <div style="position: absolute; inset: 0; background:
+    radial-gradient(800px circle at 15% 20%, rgba(255, 110, 64, 0.10), transparent 50%),
+    radial-gradient(600px circle at 85% 70%, rgba(14, 165, 233, 0.08), transparent 50%);
+    pointer-events: none;"></div>
+
+  <div style="position: relative; max-width: 64rem; margin: 0 auto; padding: 5rem 1.5rem;">
+    <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.375rem 0.75rem; border-radius: 9999px; background: var(--brand-50); border: 1px solid var(--brand-100); color: var(--brand-700); font-size: 0.75rem; font-weight: 500; margin-bottom: 2rem;">
+      <span style="position: relative; display: inline-flex; width: 0.5rem; height: 0.5rem;">
+        <span style="position: absolute; display: inline-flex; width: 100%; height: 100%; border-radius: 50%; background: var(--brand-500); opacity: 0.75; animation: ping 1.5s infinite;"></span>
+        <span style="position: relative; display: inline-flex; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--brand-500);"></span>
+      </span>
+      持续更新中
+    </div>
+
+    <h1 style="font-family: var(--font-serif); font-weight: 700; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.05; color: var(--ink-900); margin: 0; letter-spacing: -0.02em;">
+      用代码，<br>
+      <span style="color: var(--brand-600); font-style: italic;">慢一点</span>记录思考。
+    </h1>
+
+    <p style="margin-top: 1.75rem; max-width: 42rem; font-size: 1.125rem; line-height: 1.7; color: var(--ink-500);">
+      Hugo 风格极简技术博客。分享前端工程、写作工具、独立开发的踩坑笔记，以及那些值得慢下来读完的长文。
+    </p>
+
+    <div style="margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 0.75rem;">
+      <a href="#latest" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; border-radius: var(--radius); background: var(--brand-500); color: white; font-size: 0.875rem; font-weight: 600; text-decoration: none; box-shadow: var(--shadow-soft); transition: all 200ms;">
+        开始阅读
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+      <a href="/about/" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; border-radius: var(--radius); border: 1px solid var(--ink-300); color: var(--ink-700); font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: all 200ms;">
+        关于作者
+      </a>
+    </div>
+
+    <dl style="margin-top: 4rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 28rem;">
+      <div>
+        <dt style="font-size: 0.875rem; color: var(--ink-500);">已发布文章</dt>
+        <dd style="margin: 0.25rem 0 0; font-family: var(--font-serif); font-size: 2.25rem; font-weight: 700; color: var(--ink-900);">{{ len (where .Site.RegularPages "Section" "posts") }}</dd>
+      </div>
+      <div>
+        <dt style="font-size: 0.875rem; color: var(--ink-500);">标签分类</dt>
+        <dd style="margin: 0.25rem 0 0; font-family: var(--font-serif); font-size: 2.25rem; font-weight: 700; color: var(--ink-900);">{{ len .Site.Taxonomies.tags }}</dd>
+      </div>
+      <div>
+        <dt style="font-size: 0.875rem; color: var(--ink-500);">建站年份</dt>
+        <dd style="margin: 0.25rem 0 0; font-family: var(--font-serif); font-size: 2.25rem; font-weight: 700; color: var(--ink-900);">2019</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<!-- 编辑精选 -->
+{{ $featured := first 3 (where .Site.RegularPages "Section" "posts") }}
+{{ if gt (len $featured) 0 }}
+<section style="max-width: 72rem; margin: 0 auto; padding: 5rem 1.5rem;">
+  <div style="margin-bottom: 2.5rem;">
+    <p style="font-size: 0.875rem; font-weight: 500; color: var(--brand-600); letter-spacing: 0.05em; text-transform: uppercase; margin: 0 0 0.5rem;">Editor's Picks</p>
+    <h2 style="font-family: var(--font-serif); font-size: 2.25rem; font-weight: 700; color: var(--ink-900); margin: 0;">编辑精选</h2>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+    {{ range $featured }}
+    <a href="{{ .Permalink }}" class="hn-card">
+      <div class="hn-card-meta">
+        {{ with .Params.tags }}{{ range first 1 . }}<span class="hn-tag">{{ . }}</span>{{ end }}{{ end }}
+        <span>· {{ .ReadingTime }} 分钟阅读</span>
+      </div>
+      <h3>{{ .Title }}</h3>
+      <p>{{ .Description | default .Summary | truncate 100 }}</p>
+      <div style="margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="display: inline-flex; align-items: center; justify-content: center; width: 1.75rem; height: 1.75rem; border-radius: 50%; background: linear-gradient(135deg, var(--brand-400), var(--brand-600)); color: white; font-size: 0.75rem; font-weight: 600;">L</span>
+          <span style="font-size: 0.875rem; color: var(--ink-500);">{{ .Date.Format "2006.01.02" }}</span>
+        </div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--ink-300);"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </div>
+    </a>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
+<!-- 最新文章 -->
+{{ $latest := first 6 (after 3 (where .Site.RegularPages "Section" "posts")) }}
+<section id="latest" style="max-width: 72rem; margin: 0 auto; padding: 5rem 1.5rem; border-top: 1px solid var(--ink-200);">
+  <div style="margin-bottom: 2.5rem;">
+    <p style="font-size: 0.875rem; font-weight: 500; color: var(--brand-600); letter-spacing: 0.05em; text-transform: uppercase; margin: 0 0 0.5rem;">Latest Posts</p>
+    <h2 style="font-family: var(--font-serif); font-size: 2.25rem; font-weight: 700; color: var(--ink-900); margin: 0;">最新文章</h2>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 1rem;">
+    {{ range first 6 (where .Site.RegularPages "Section" "posts") }}
+    <a href="{{ .Permalink }}" class="hn-card" style="display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem;">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        {{ with .Params.tags }}{{ range first 1 . }}<span class="hn-tag">{{ . }}</span>{{ end }}{{ end }}
+        <span style="font-size: 0.75rem; color: var(--ink-500);">· {{ .ReadingTime }} 分钟</span>
+      </div>
+      <h3 style="margin: 0;">{{ .Title }}</h3>
+      <p style="margin: 0;">{{ .Description | default .Summary | truncate 120 }}</p>
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-top: auto;">
+        <span style="font-size: 0.875rem; color: var(--ink-500);">{{ .Date.Format "2006.01.02" }}</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--ink-300);"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </div>
+    </a>
+    {{ end }}
+  </div>
+</section>
+
+<!-- 标签云 -->
+{{ if gt (len .Site.Taxonomies.tags) 0 }}
+<section style="background: var(--ink-100); border-top: 1px solid var(--ink-200); border-bottom: 1px solid var(--ink-200);">
+  <div style="max-width: 72rem; margin: 0 auto; padding: 5rem 1.5rem;">
+    <div style="text-align: center; margin-bottom: 3rem;">
+      <p style="font-size: 0.875rem; font-weight: 500; color: var(--brand-600); letter-spacing: 0.05em; text-transform: uppercase; margin: 0 0 0.5rem;">Browse by Tag</p>
+      <h2 style="font-family: var(--font-serif); font-size: 2.25rem; font-weight: 700; color: var(--ink-900); margin: 0;">探索标签</h2>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; max-width: 48rem; margin: 0 auto;">
+      {{ range .Site.Taxonomies.tags }}
+      <a href="{{ .Page.Permalink }}" class="hn-tag" style="font-size: 0.875rem; padding: 0.5rem 1rem;">
+        {{ .Page.Title }} <span style="opacity: 0.6; margin-left: 0.25rem; font-size: 0.75rem;">{{ .Count }}</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- Newsletter -->
+<section style="max-width: 72rem; margin: 0 auto; padding: 6rem 1.5rem;">
+  <div style="position: relative; overflow: hidden; border-radius: var(--radius-xl); background: var(--ink-900); padding: 4rem;">
+    <div style="position: absolute; top: 0; right: 0; width: 16rem; height: 16rem; background: var(--brand-500); opacity: 0.2; border-radius: 50%; filter: blur(48px); transform: translate(50%, -50%);"></div>
+    <div style="position: absolute; bottom: 0; left: 0; width: 16rem; height: 16rem; background: #0EA5E9; opacity: 0.2; border-radius: 50%; filter: blur(48px); transform: translate(-50%, 50%);"></div>
+
+    <div style="position: relative; max-width: 32rem;">
+      <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.375rem 0.75rem; border-radius: 9999px; background: rgba(255, 110, 64, 0.1); border: 1px solid rgba(255, 110, 64, 0.3); color: #FB923C; font-size: 0.75rem; font-weight: 500; margin-bottom: 1.5rem;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        Newsletter
+      </div>
+      <h2 style="font-family: var(--font-serif); font-size: 2.25rem; font-weight: 700; color: white; line-height: 1.2; margin: 0;">
+        每月一封，<br>只写值得慢读的内容。
+      </h2>
+      <p style="margin-top: 1rem; color: var(--ink-300); font-size: 1rem; line-height: 1.6;">
+        没有推送、没有广告。每期精选 4–6 篇本月值得读的文章，加上一点不成熟的个人思考。
+      </p>
+      <form style="margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 0.75rem; max-width: 28rem;">
+        <label for="hn-email" style="position: absolute; width: 1px; height: 1px; overflow: hidden;">邮箱地址</label>
+        <input id="hn-email" type="email" placeholder="your@email.com" required style="flex: 1; min-width: 200px; padding: 0.75rem 1.25rem; border-radius: var(--radius); background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white; font-size: 0.875rem;">
+        <button type="submit" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; border-radius: var(--radius); background: var(--brand-500); color: white; font-size: 0.875rem; font-weight: 600; border: 0; cursor: pointer;">
+          订阅
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </button>
+      </form>
+      <p style="margin-top: 0.75rem; font-size: 0.75rem; color: var(--ink-500);">随时退订 · 我承诺不会把你的邮箱给任何人</p>
+    </div>
+  </div>
+</section>
+
+<style>
+@keyframes ping {
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+</style>
+
+{{ end }}

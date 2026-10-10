@@ -1,0 +1,114 @@
+baseURL = "https://example.com/"
+title = "Hugo.Notes"
+theme = "PaperMod"
+
+# 语言与时区
+defaultContentLanguage = "zh-cn"
+hasCJKLanguage = true
+languageCode = "zh-CN"
+enableRobotsTXT = true
+
+# 不生成分类页的毛刺
+disableKinds = []
+
+# 主题参数 —— 大量关闭 PaperMod 默认 UI，避免暴露身份
+[params]
+  # 日期格式（国际化）
+  DateFormat = "2006.01.02"
+  # 默认主题：跟随系统
+  defaultTheme = "auto"
+  ShowThemeToggle = true
+  ShowReadingTime = false       # 我们自己算阅读时长
+  ShowShareButtons = false      # 我们自己实现分享
+  ShowPostNavLinks = false      # 我们自己实现上下篇
+  ShowBreadCrumbs = false       # 我们自己实现面包屑
+  ShowCodeCopyButtons = false   # 我们自己实现代码复制
+  ShowRssButtonInMenu = true
+  ShowFullTextInFeed = true
+  # 关闭 PaperMod 首页特殊模式
+  homeInfoParams = ""
+  profileMode = false
+  # 关闭社交图标（我们用 SVG 实现）
+  socialIcons = []
+  # 关闭主页文章卡片元信息（我们自己排版）
+  ShowPostEntriesOnly = false
+  # 归档页开关
+  ShowArchive = true
+  # 搜索
+  ShowSearch = true
+
+# 应用图标（简化处理）
+[params.assets]
+  favicon = "/favicon.svg"
+  # 不加载 PaperMod 的 fancybox/lite-youtube 等可选 JS
+  js = []
+  css = []
+
+# 我们自己的菜单（不暴露 PaperMod 默认菜单结构）
+[[menu.main]]
+  identifier = "home"
+  name = "首页"
+  url = "/"
+  weight = 10
+
+[[menu.main]]
+  identifier = "posts"
+  name = "文章"
+  url = "/posts/"
+  weight = 20
+
+[[menu.main]]
+  identifier = "tags"
+  name = "标签"
+  url = "/tags/"
+  weight = 30
+
+[[menu.main]]
+  identifier = "about"
+  name = "关于"
+  url = "/about/"
+  weight = 40
+
+[[menu.main]]
+  identifier = "archives"
+  name = "归档"
+  url = "/archives/"
+  weight = 50
+
+# 站点作者信息（供 Newsletter 等用）
+[params.author]
+  name = "Lincy"
+  email = "hi@example.com"
+  bio = "前端工程师 / 写作者 / 偶尔做独立产品"
+
+# sitemap
+[sitemap]
+  changefreq = "weekly"
+  priority = 0.5
+
+# 输出 Feed
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+# Mark 用于归档（保留）
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true   # 允许内联 HTML
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    hl_Lines = ""
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = false
+    style = "monokai"
+    tabWidth = 2
+
+# 分页
+[pagination]
+  pagerSize = 10
+
+# 我们主内容来自 posts section
+mainSections = ["posts"]

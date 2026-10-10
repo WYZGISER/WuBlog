@@ -1,0 +1,82 @@
+{{/* 自定义文章详情页 - 完全重写 PaperMod 默认 single.html */}}
+{{ define "main" }}
+
+<article>
+  <!-- Header -->
+  <header style="max-width: 48rem; margin: 0 auto; padding: 2.5rem 1.5rem 3rem;">
+    <!-- Tags -->
+    {{ with .Params.tags }}
+    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem;">
+      {{ range . }}<span class="hn-tag">{{ . }}</span>{{ end }}
+    </div>
+    {{ end }}
+
+    <h1 style="font-family: var(--font-serif); font-weight: 700; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.15; color: var(--ink-900); margin: 0; letter-spacing: -0.02em;">
+      {{ .Title }}
+    </h1>
+
+    {{ with .Description }}
+    <p style="margin-top: 1.25rem; font-size: 1.25rem; line-height: 1.6; color: var(--ink-500);">
+      {{ . }}
+    </p>
+    {{ end }}
+
+    <!-- Meta -->
+    <div style="margin-top: 2rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--ink-200);">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span style="display: inline-flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: linear-gradient(135deg, var(--brand-400), var(--brand-600)); color: white; font-weight: 600; font-size: 0.875rem;">L</span>
+        <div>
+          <div style="font-size: 0.875rem; font-weight: 500; color: var(--ink-900);">{{ .Site.Params.author.name }}</div>
+          <div style="font-size: 0.75rem; color: var(--ink-500);">{{ .Site.Params.author.bio }}</div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.375rem; font-size: 0.875rem; color: var(--ink-500);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        {{ .Date.Format "2006.01.02" }}
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.375rem; font-size: 0.875rem; color: var(--ink-500);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        {{ .ReadingTime }} 分钟阅读
+      </div>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <div style="max-width: 72rem; margin: 0 auto; padding: 0 1.5rem 5rem;">
+    <div class="hn-post">
+      {{ .Content }}
+    </div>
+
+    <!-- 文章底部：标签 + 上下篇 -->
+    <div style="max-width: 48rem; margin: 3rem auto 0;">
+      {{ with .Params.tags }}
+      <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--ink-200);">
+        <h3 style="font-size: 0.875rem; font-weight: 600; color: var(--ink-900); margin: 0 0 1rem;">文章标签</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+          {{ range . }}<a href="/tags/{{ . | urlize }}/" class="hn-tag" style="font-size: 0.875rem;">#{{ . }}</a>{{ end }}
+        </div>
+      </div>
+      {{ end }}
+
+      <!-- 上下篇 -->
+      <nav style="margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        {{ with .PrevInSection }}
+        <a href="{{ .Permalink }}" class="hn-card" style="padding: 1.25rem;">
+          <div style="font-size: 0.75rem; color: var(--ink-500); margin-bottom: 0.25rem;">← 上一篇</div>
+          <div style="font-family: var(--font-serif); font-weight: 600; color: var(--ink-900);">{{ .Title | truncate 30 }}</div>
+        </a>
+        {{ else }}<div></div>
+        {{ end }}
+        {{ with .NextInSection }}
+        <a href="{{ .Permalink }}" class="hn-card" style="padding: 1.25rem; text-align: right;">
+          <div style="font-size: 0.75rem; color: var(--ink-500); margin-bottom: 0.25rem;">下一篇 →</div>
+          <div style="font-family: var(--font-serif); font-weight: 600; color: var(--ink-900);">{{ .Title | truncate 30 }}</div>
+        </a>
+        {{ else }}<div></div>
+        {{ end }}
+      </nav>
+    </div>
+  </div>
+</article>
+
+{{ end }}
