@@ -2,8 +2,8 @@
 <header class="hn-nav">
   <div class="hn-nav-inner">
     <a href="{{ .Site.BaseURL }}" class="hn-logo">
-      <span class="hn-logo-mark">H</span>
-      <span>Hugo<span class="hn-dot">.</span>Notes</span>
+      <span class="hn-logo-mark">L</span>
+      <span>{{ .Site.Title | replaceRE `\.` `<span class="hn-dot">.</span>` | safeHTML }}</span>
     </a>
 
     <ul class="hn-menu">

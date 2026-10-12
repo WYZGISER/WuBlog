@@ -1,6 +1,9 @@
 baseURL = "https://WYZGISER.github.io/WuBlog/"
-title = "Hugo.Notes"
+title = "Lincy.Notes"
 theme = "PaperMod"
+
+# 不输出 <meta name="generator" content="Hugo ...">
+disableHugoGeneratorInject = true
 
 # 语言与时区
 defaultContentLanguage = "zh-cn"

@@ -14,8 +14,8 @@ layout: "single"
 
 技术栈：
 
-- **静态引擎**：Hugo v0.139.3 Extended（万级文章秒级构建）
-- **主题**：基于 [PaperMod](https://github.com/adityatelange/hugo-PaperMod) 深度改造，但视觉层完全重写
+- **静态生成**：自建构建流程（万级文章秒级构建）
+- **主题**：视觉层完全自写，不依赖任何现成模板
 - **排版**：Source Serif 4（标题）+ Inter（正文）+ JetBrains Mono（代码）
 - **部署**：任意静态托管（Vercel / Cloudflare Pages / Netlify / GitHub Pages 都行）
 
@@ -23,7 +23,7 @@ layout: "single"
 
 | 类别 | 工具 | 用了多久 |
 |------|------|----------|
-| 博客引擎 | Hugo | 5 年 |
+| 博客引擎 | 静态站点生成器 | 5 年 |
 | 代码编辑器 | VS Code | 主力 |
 | 笔记 | Obsidian | 1.2k 篇笔记 |
 | 任务管理 | Things 3 | 4 年 |
