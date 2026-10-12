@@ -1,6 +1,6 @@
 @echo off
 chcp 65001 >nul
-title Hugo.Notes 本地预览
+title Lincy.Notes 本地预览
 cd /d "%~dp0"
 
 REM 找一个空闲端口（默认 1314，被占用就 +1）
@@ -14,15 +14,16 @@ if %errorlevel% equ 0 (
 
 echo.
 echo  ===============================================
-echo    Hugo.Notes 启动中...
+echo    Lincy.Notes 启动中...
 echo    端口: %PORT%
 echo    访问: http://127.0.0.1:%PORT%
 echo    按 Ctrl+C 停止服务器
 echo  ===============================================
 echo.
 
-REM 启动 Hugo 服务器（后台进程）
-start "Hugo-Server" /MIN cmd /c "hugo.exe server -D --bind 127.0.0.1 --port %PORT%"
+REM 启动服务器（后台进程）
+REM --baseURL 覆盖为根路径：线上部署在 /WuBlog/ 子目录，本地预览必须回到根，否则访问 / 会 404
+start "Site-Server" /MIN cmd /c "hugo.exe server -D --bind 127.0.0.1 --port %PORT% --baseURL http://127.0.0.1:%PORT%/"
 
 REM 等待 3 秒让服务器启动
 timeout /t 3 /nobreak >nul

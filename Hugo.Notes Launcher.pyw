@@ -1,5 +1,5 @@
 """
-Hugo.Notes 启动器 - 双击运行
+Lincy.Notes 启动器 - 双击运行
 需要 Python 3.10+（系统已自带）
 """
 
@@ -18,6 +18,8 @@ SCRIPT_DIR = Path(__file__).parent.resolve()
 HUGO_EXE   = SCRIPT_DIR / "hugo.exe"
 PORT       = 1314
 URL        = f"http://127.0.0.1:{PORT}"
+# 线上部署在 /WuBlog/ 子目录，本地预览用根路径，否则访问 / 会 404
+BASE_URL   = f"http://127.0.0.1:{PORT}/"
 
 # 品牌色
 BRAND_500  = "#FF6E40"
@@ -39,7 +41,7 @@ class HugoLauncher:
         self.proc  = None  # subprocess.Popen
         self.alive = False
 
-        root.title("Hugo.Notes 启动器")
+        root.title("Lincy.Notes 启动器")
         root.geometry("520x460")
         root.resizable(False, False)
         root.configure(bg=BG)
@@ -65,12 +67,12 @@ class HugoLauncher:
         header.pack_propagate(False)
 
         tk.Label(
-            header, text="H", font=("Georgia", 28, "bold"),
+            header, text="L", font=("Georgia", 28, "bold"),
             fg="white", bg=BRAND_500
         ).pack(side="left", padx=(20, 8), pady=12)
 
         tk.Label(
-            header, text="Hugo.Notes", font=self.font_title,
+            header, text="Lincy.Notes", font=self.font_title,
             fg="white", bg=BRAND_500
         ).pack(side="left", pady=18)
 
@@ -209,7 +211,8 @@ class HugoLauncher:
         try:
             self.proc = subprocess.Popen(
                 [str(HUGO_EXE), "server", "-D",
-                 "--bind", "127.0.0.1", "--port", str(PORT)],
+                 "--bind", "127.0.0.1", "--port", str(PORT),
+                 "--baseURL", BASE_URL],
                 cwd=str(SCRIPT_DIR),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
